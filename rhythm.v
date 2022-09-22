@@ -6,8 +6,9 @@ module rhythm (input clk,
     initial begin
         T = 8'd1;
     end
-    always @(posedge clk) begin
-        T = {T[6:0],T[7]};
+    always @(posedge clk or negedge CLEARn) begin
+        if(CLEARn==1'b0) T=8'd1;
+        else T = {T[6:0],T[7]};
     end
 endmodule
 module tb_rhythm;

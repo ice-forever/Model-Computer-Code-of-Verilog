@@ -31,7 +31,7 @@ assign LED[15:8]=T[7:0];
     .CLEARn(RUN|~HALT),   //清零输入, 低有??
     .clk5(clk));*/
     clock_4hz u_clk(.clk(clk100mhz),
-                 .CLEARn(RUN|~HALT),   //清零输入, 低有??
+                 .CLEARn(RUN&~HALT),   //清零输入, 低有??
                  .clk4hz(clk));
                  
     CPU  u_CPU (

@@ -8,7 +8,7 @@ reg   RESET                                = 0 ;
 reg   [15:0]  SW                           = 0 ;
 
 // Computer Outputs
-wire  [15:0]  LED                          ;
+wire  [15:8]  LED                          ;
 wire  [7:0]  AN                            ;
 wire  [6:0]  seg                           ;
 
@@ -39,9 +39,8 @@ assign LED[15:8]=T[7:0];
 //仿真用
     clock_divide5 u_clk(
     .clk(clk100mhz),
-    .CLEARn(RUN|~HALT),   //清零输入, 低有??
+    .CLEARn(RUN&~HALT),   //清零输入, 低有??
     .clk5(clk));
-   
  /*
     clock_4hz u_clk(.clk(clk100mhz),
                  .CLEARn(RUN|~HALT),   //清零输入, 低有??
@@ -86,7 +85,7 @@ seg7decimal u_show(
 
 initial
 begin
-    SW[0]=1;#1600;SW[0]=0;#100;SW[0]=1;#1600;RESET=1;#10;RESET=0;#3200;
+    SW[0]=1;#1600;SW[0]=0;#500;SW[0]=1;#1600;RESET=1;#10;RESET=0;#3200;
     $stop;
 end
 

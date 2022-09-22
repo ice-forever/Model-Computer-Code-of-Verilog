@@ -18,12 +18,9 @@ output wire [3:0]IRX,
 output wire [1:0]SRC,
 output wire [1:0]DST,
 output HALT
-
 );
-
-
 rhythm  u_rhythm (
-    .clk                     ( clk           ),
+    .clk                     (clk&RUN),
     .CLEARn                  ( ~RESET        ),
     .T                       ( T       [7:0] )
     );
@@ -57,7 +54,7 @@ rhythm  u_rhythm (
     .CLEARn(RUN|~HALT),   //«Â¡„ ‰»Î, µÕ”–??
     .clk5(clk));*/
     PC u_PC (
-    .clk (clk),
+    .clk (clk&RUN),
     .CLEARn (~RESET),
     .RUN (IPC),
     .B (PC2MAR));
@@ -79,30 +76,31 @@ rhythm  u_rhythm (
     REG u_IR (.inflag(IIR),
     .outflag(),
     .RIN(D2BUS),
+    .RESET(RESET),
     .checkout(),
     .ROUT(IROUT));
-    REGclk u_AX (.clk(clk),.inflag(IRX[1]),
+    REGclk u_AX (.clk(clk&RUN),.inflag(IRX[1]),
     .outflag(),
     .RIN(D2BUS),
     .checkout(),
     .ROUT(AX));
-    REGclk u_DX (.clk(clk),.inflag(IRX[2]),
+    REGclk u_DX (.clk(clk&RUN),.inflag(IRX[2]),
     .outflag(),
     .RIN(D2BUS),
     .checkout(),
     .ROUT(DX));
-    REGclk u_CX (.clk(clk),.inflag(IRX[3]),
+    REGclk u_CX (.clk(clk&RUN),.inflag(IRX[3]),
     .outflag(),
     .RIN(D2BUS),
     .checkout(),
     .ROUT(CX));
-    REGclk u_R (.clk(clk),.inflag(IRX[0]),
+    REGclk u_R (.clk(clk&RUN),.inflag(IRX[0]),
     .outflag(),
     .RIN(D2BUS),
     .checkout(),
     .ROUT(R));
     selector4to1 u_DST(
-    .clk(clk),
+    .clk(clk&RUN),
     .T(T),
     .addr(DST),
     .D0(R),
@@ -111,7 +109,7 @@ rhythm  u_rhythm (
     .D3(CX),
     .OUT(ALU_A));
     selector4to1 u_SRC(
-    .clk(clk),
+    .clk(clk&RUN),
     .T(T),
     .addr(SRC),
     .D0(R),
