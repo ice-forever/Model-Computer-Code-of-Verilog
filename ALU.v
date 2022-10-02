@@ -108,20 +108,27 @@ module div (input flag,
              input [7:0]B,
              output [7:0]OUT);
     reg [7:0]saveAX = 0,saveDX = 0,S = 0;
-    reg [15:0]save;
+    reg [15:0]save=0;
     assign OUT = flag?S:8'bz;
-    wire [7:0]inA,inB;
     always @(T[6]) begin
         if (T[6] == 1'b1)S = saveAX;
         else S = saveDX;
     end
-    always @(posedge T[5]) begin
-        saveAX = save[15:0]/B[7:0];
-        saveDX = save[15:0]%B[7:0];
+    /*always @(posedge T[5]) begin
+        
     end
     always @(negedge T[3]) begin
-            save[7:0]  = A[7:0];
-            save[15:8] = B[7:0];
+            
+    end*/
+    always @(T[4]) begin
+        if(T[4]==1'b1)  begin
+            save[7:0]  <= A[7:0];
+            save[15:8] <= B[7:0];
+        end
+        else    begin
+            saveAX <= save[15:0]/B[7:0];
+            saveDX <= save[15:0]%B[7:0];
+        end
     end
 endmodule
 

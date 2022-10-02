@@ -6,9 +6,9 @@ module seg7decimal(
 	output reg [7:0] an,
 	output wire dp );
 wire [2:0] s;
-reg [3:0] digit;
+reg [3:0] digit=0;
 wire [7:0] aen;
-reg [19:0] clkdiv;
+reg [19:0] clkdiv=0;
 assign dp = 1;
 assign s = clkdiv[19:17];
 assign aen = 8'b11111111;

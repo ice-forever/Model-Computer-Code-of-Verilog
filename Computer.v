@@ -4,7 +4,9 @@ module Computer (
     input [15:0]SW,
     output [15:0]LED,
     output [7:0]AN,
-    output [6:0]seg
+    output [6:0]seg,
+    output  DP
+
 );
     // CPU Outputs
 wire  [7:0]  AX                            ;
@@ -21,10 +23,11 @@ wire  [7:0]  IROUT                         ;
 wire  [3:0]  IRX                           ;
 wire  [1:0]  SRC                           ;
 wire  [1:0]  DST                           ;
+wire clk;
 
-
-assign RUN=SW[0];
+assign SW[0]=RUN;
 assign LED[15:8]=T[7:0];
+assign LED[0]=clk;
 /*仿真用
     clock_divide5 u_clk(
     .clk(clk100mhz),
@@ -33,11 +36,11 @@ assign LED[15:8]=T[7:0];
     clock_4hz u_clk(.clk(clk100mhz),
                  .CLEARn(RUN&~HALT),   //清零输入, 低有??
                  .clk4hz(clk));
-                 
+
     CPU  u_CPU (
     .RUN                     ( RUN           ),
     .clk                     ( clk           ),
-    .RESET                   ( RESET         ),
+    .RESET                   ( ~RESET         ),
 
     .AX                      ( AX      [7:0] ),
     .DX                      ( DX      [7:0] ),
@@ -55,6 +58,7 @@ assign LED[15:8]=T[7:0];
     .DST                     ( DST     [1:0] ),
     .HALT(HALT)
 );
+
 wire [19:0]showAX,showDX;
 
 bin_16toBCD_5 u_showAX(
@@ -69,5 +73,5 @@ seg7decimal u_show(
 	.clk(clk100mhz),
 	.g_to_a(seg),
 	.an(AN),
-	.dp() );
+	.dp(DP) );
 endmodule
