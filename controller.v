@@ -76,7 +76,5 @@ initial IRX=4'd0;
         else begin
         IRX[DST]=T[6]&~T[7]&~(IMUL|IDIV);
         end
-        
     end
-
 endmodule

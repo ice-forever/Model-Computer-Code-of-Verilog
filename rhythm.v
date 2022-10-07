@@ -19,7 +19,7 @@ parameter PERIOD  = 10;
 
 // rhythm Inputs
 reg   clk                                  = 0 ;
-reg   CLEARn                               = 0 ;
+reg   CLEARn                               = 1 ;
 
 // rhythm Outputs
 wire  [7:0]  T                             ;
